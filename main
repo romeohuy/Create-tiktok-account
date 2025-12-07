@@ -47,39 +47,43 @@ def make_tiktok_params():
     "dpi": "240",
     "device_type": "NE2211",
     "device_brand": "OnePlus",
-    "language": "en",
+    "language": "vi",
     "os_api": "28",
     "os_version": "9",
     "ac": "wifi",
     "is_pad": "0",
-    "current_region": "TW",
-    "app_type": "normal",
-    "sys_region": "US",
+
+    "current_region": "VN",
+    "sys_region": "VN",
+    "residence": "VN",
+    "carrier_region": "VN",
+    "carrier_region_v2": "452",
+    "op_region": "VN",
+
     "last_install_time": "1752871588",
-    "mcc_mnc": "46692",
-    "timezone_name": "Asia/Baghdad",
-    "carrier_region_v2": "466",
-    "residence": "TW",
-    "app_language": "en",
-    "carrier_region": "TW",
-    "timezone_offset": "10800",
-    "host_abi": "arm64-v8a",
-    "locale": "en-GB",
+    "mcc_mnc": "45201", 
+    "timezone_name": "Asia/Ho_Chi_Minh",
+    "timezone_offset": "25200",
+
+    "app_language": "vi",
+    "locale": "vi-VN",
+    "region": "VN",
+    "reg_store_region": "vn",
+
     "ac2": "wifi",
     "uoo": "0",
-    "op_region": "TW",
     "build_number": "37.8.5",
-    "region": "GB",
     "ts": "1752875702",
+
     "iid": "7528525992324908807",
     "device_id": "7528525775047132680",
     "openudid": "7a59d727a58ee91e",
+
     "support_webview": "1",
-    "reg_store_region": "tw",
-    "user_selected_region": "0",
+    "user_selected_region": "1",
     "okhttp_version": "4.2.210.6-tiktok",
     "use_store_region_cookie": "1",
-    "app_version":"37.8.5"
+    "app_version": "37.8.5"
     }, dd
 
 # ===== دوال مساعدة =====
@@ -215,39 +219,49 @@ def verify_tiktok_email(session: requests.Session, email: str, code: str, birthd
     "dpi": "240",
     "device_type": "NE2211",
     "device_brand": "OnePlus",
-    "language": "en",
+    
+    "language": "vi",
+    "app_language": "vi",
+    "locale": "vi-VN",
+
     "os_api": "28",
     "os_version": "9",
     "ac": "wifi",
     "is_pad": "0",
-    "current_region": "TW",
+
+    "current_region": "VN",
+    "sys_region": "VN",
+    "carrier_region": "VN",
+    "carrier_region_v2": "452",
+    "residence": "VN",
+    "op_region": "VN",
+    "region": "VN",
+    "reg_store_region": "vn",
+
     "app_type": "normal",
-    "sys_region": "US",
     "last_install_time": "1752871588",
-    "mcc_mnc": "46692",
-    "timezone_name": "Asia/Baghdad",
-    "carrier_region_v2": "466",
-    "residence": "TW",
-    "app_language": "en",
-    "carrier_region": "TW",
-    "timezone_offset": "10800",
+
+    "mcc_mnc": "45201",
+
+    "timezone_name": "Asia/Ho_Chi_Minh",
+    "timezone_offset": "25200",
+
     "host_abi": "arm64-v8a",
-    "locale": "en-GB",
     "ac2": "wifi",
     "uoo": "0",
-    "op_region": "TW",
     "build_number": "37.8.5",
-    "region": "GB",
+
     "ts": "1752875714",
-        "iid": "7528525992324908807",
+
+    "iid": "7528525992324908807",
     "device_id": "7528525775047132680",
     "openudid": "7a59d727a58ee91e",
+
     "support_webview": "1",
-    "reg_store_region": "tw",
-    "user_selected_region": "0",
+    "user_selected_region": "1",
     "okhttp_version": "4.2.210.6-tiktok",
     "use_store_region_cookie": "1",
-    "app_version":"37.8.5"
+    "app_version": "37.8.5"
 }
     payload = {
         'birthday': birthdate,
@@ -341,13 +355,13 @@ if __name__ == "__main__":
         # 6) حفظ معلومات الحساب في ملف
         data = resp_verify.get("data", {})
         session_key = data.get("session_key")
-        x_tt_token = data.get("token") or full_headers.get("X-Tt-Token")        
+        x_tt_token = data.get("token") or data.get("X-Tt-Token")        
         username = data.get("name")
         if session_key:
             with open("accounts.txt", "a") as f:
                 f.write(f"{email}:{password}:{username}\n")
-            with open("session.txt", "a") as f:
-                f.write(f"{session_key}:{X-Tt-Token}:{token}\n")
+            # with open("session.txt", "a") as f:
+            #     f.write(f"{session_key}:{X-Tt-Token}:{token}\n")
             print(f"[+] Success! Account saved: {username}")
         else:
             print("[-] Registration failed or blocked by IP.")
