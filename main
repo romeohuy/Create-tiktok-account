@@ -1,3 +1,4 @@
+import datetime
 import requests
 from urllib.parse import urlencode
 import re
@@ -23,7 +24,7 @@ TM_HEADERS = {
     "Content-Type": "application/json"
 }
 TM_CREATE_URL = "https://api.internal.temp-mail.io/api/v3/email/new"
-TM_MESSAGES_URL = "https://api.internal.temp-mail.io/api/v3/email/{email}/messages"
+TM_MESSAGES_URL = "https://btauto.shop/api/app/tools/code-tiktok?emailTiktok={email}"
 
 # بيانات جهاز عشوائية (لـ TikTok)
 def make_tiktok_params():
@@ -121,15 +122,18 @@ def create_temp_email() -> tuple[str, str]:
     resp = requests.post(TM_CREATE_URL, headers=TM_HEADERS, json=payload)
     resp.raise_for_status()
     data = resp.json()
-    return data["email"], data["token"]
+    # Get the current datetime object
+    now = datetime.datetime.now()
+    strtime =now.strftime("%d%m%Y%H%M%S")
+    return f"tiktok{strtime}@bteam.io.vn", ""
 
 def fetch_code_from_email(email: str, timeout: int = 60) -> str | None:
     url = TM_MESSAGES_URL.format(email=email)
     for _ in range(timeout):
         resp = requests.get(url, headers=TM_HEADERS)
         resp.raise_for_status()
-        for msg in resp.json():
-            text = msg.get("subject", "") + "\n" + msg.get("body_text", "")
+        text = resp.text
+        if text != '':
             m = re.search(r"\b\d{6}\b", text)
             if m:
                 return m.group()
